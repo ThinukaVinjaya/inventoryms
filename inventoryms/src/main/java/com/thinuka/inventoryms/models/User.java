@@ -2,8 +2,8 @@ package com.thinuka.inventoryms.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import com.thinuka.inventoryms.security.Auditable;
-import com.thinuka.inventoryms.security.Role;
+import com.thinuka.inventoryms.security.models.Auditable;
+import com.thinuka.inventoryms.security.models.UserPrivilegeAssignment;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -67,13 +67,9 @@ public class User extends Auditable<String> {
     private String profile;
 
 
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_role",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")}
-    )
-    List<Role> roles;
+    @OneToMany(mappedBy = "user")
+    private List<UserPrivilegeAssignment> privileges;
+
 
     @ElementCollection
     @CollectionTable(name = "social_links", joinColumns = @JoinColumn(name = "user_id"))
@@ -104,4 +100,6 @@ public class User extends Auditable<String> {
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private List<Message> messages;
+
+
 }

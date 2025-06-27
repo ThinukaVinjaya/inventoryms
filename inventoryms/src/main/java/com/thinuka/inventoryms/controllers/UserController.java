@@ -2,7 +2,7 @@ package com.thinuka.inventoryms.controllers;
 
 
 import com.thinuka.inventoryms.models.User;
-import com.thinuka.inventoryms.security.Role;
+import com.thinuka.inventoryms.security.models.Role;
 import com.thinuka.inventoryms.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,7 +56,6 @@ public class UserController {
     @PutMapping("/user/{id}/roles")
     public User updateUser(@RequestBody() List<Role> roles, @PathVariable("id") Long id){
         User user = userService.getUserById(id);
-        user.setRoles(roles);
         return userService.updateUser(user, id);
     }
 }

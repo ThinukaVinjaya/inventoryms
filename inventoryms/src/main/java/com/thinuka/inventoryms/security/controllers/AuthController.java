@@ -1,6 +1,8 @@
-package com.thinuka.inventoryms.security;
+package com.thinuka.inventoryms.security.controllers;
 
 
+import com.thinuka.inventoryms.security.services.AuthenticationService;
+import com.thinuka.inventoryms.security.models.LoginRequest;
 import com.thinuka.inventoryms.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
@@ -14,7 +16,7 @@ public class AuthController {
 
     private final UserService userService;
 
-    private final  AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
 
     public AuthController(UserService userService, AuthenticationService authenticationService) {
         this.userService = userService;

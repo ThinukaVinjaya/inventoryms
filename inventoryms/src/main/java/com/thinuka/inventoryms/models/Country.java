@@ -2,7 +2,7 @@ package com.thinuka.inventoryms.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import com.thinuka.inventoryms.security.Auditable;
+import com.thinuka.inventoryms.security.models.Auditable;
 import jakarta.persistence.*;
 import lombok.Data;
 

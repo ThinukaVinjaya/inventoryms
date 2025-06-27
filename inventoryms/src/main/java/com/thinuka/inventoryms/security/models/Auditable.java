@@ -1,4 +1,4 @@
-package com.thinuka.inventoryms.security;
+package com.thinuka.inventoryms.security.models;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

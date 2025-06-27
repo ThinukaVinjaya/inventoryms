@@ -3,11 +3,9 @@ package com.thinuka.inventoryms.models;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import com.thinuka.inventoryms.security.Auditable;
+import com.thinuka.inventoryms.security.models.Auditable;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "order_item")

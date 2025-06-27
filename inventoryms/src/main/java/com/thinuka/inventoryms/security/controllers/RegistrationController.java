@@ -1,7 +1,8 @@
-package com.thinuka.inventoryms.security;
+package com.thinuka.inventoryms.security.controllers;
 
 
 import com.thinuka.inventoryms.models.User;
+import com.thinuka.inventoryms.security.services.AuthenticationService;
 import com.thinuka.inventoryms.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,5 +1,6 @@
-package com.thinuka.inventoryms.security;
+package com.thinuka.inventoryms.security.repositories;
 
+import com.thinuka.inventoryms.security.models.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

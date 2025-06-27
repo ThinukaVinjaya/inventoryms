@@ -1,4 +1,4 @@
-package com.thinuka.inventoryms.security;
+package com.thinuka.inventoryms.security.models;
 
 
 import com.thinuka.inventoryms.models.User;

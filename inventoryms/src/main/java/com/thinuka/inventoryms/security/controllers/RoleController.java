@@ -1,6 +1,8 @@
-package com.thinuka.inventoryms.security;
+package com.thinuka.inventoryms.security.controllers;
 
 
+import com.thinuka.inventoryms.security.services.RoleService;
+import com.thinuka.inventoryms.security.models.Role;
 import com.thinuka.inventoryms.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -33,7 +35,7 @@ public class RoleController {
         return roleService.save(role);
     }
 
-    @RequestMapping(value = "/role/delete/{id}", method = {RequestMethod.DELETE, RequestMethod.GET})
+    @RequestMapping(value = "/role/delete/{id}", method = {RequestMethod.DELETE, })
     public void delete(@PathVariable Integer id) {
         roleService.delete(id);
     }

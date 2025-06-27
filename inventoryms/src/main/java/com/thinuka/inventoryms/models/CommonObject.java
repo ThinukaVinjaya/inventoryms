@@ -1,7 +1,7 @@
 package com.thinuka.inventoryms.models;
 
 
-import com.thinuka.inventoryms.security.Auditable;
+import com.thinuka.inventoryms.security.models.Auditable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

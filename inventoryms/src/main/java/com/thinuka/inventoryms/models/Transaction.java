@@ -1,7 +1,7 @@
 package com.thinuka.inventoryms.models;
 
 
-import com.thinuka.inventoryms.security.Auditable;
+import com.thinuka.inventoryms.security.models.Auditable;
 import lombok.Data;
 
 import jakarta.persistence.*;

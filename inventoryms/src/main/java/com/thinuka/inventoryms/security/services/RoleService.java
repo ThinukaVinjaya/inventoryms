@@ -1,7 +1,9 @@
-package com.thinuka.inventoryms.security;
+package com.thinuka.inventoryms.security.services;
 
 
 import com.thinuka.inventoryms.repositories.UserRepository;
+import com.thinuka.inventoryms.security.models.Role;
+import com.thinuka.inventoryms.security.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
