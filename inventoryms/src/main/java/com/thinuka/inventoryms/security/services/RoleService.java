@@ -8,12 +8,14 @@ import com.thinuka.inventoryms.security.models.UserPrivilegeAssignment;
 import com.thinuka.inventoryms.security.repositories.PrivilegeRepository;
 import com.thinuka.inventoryms.security.repositories.RoleRepository;
 import com.thinuka.inventoryms.security.repositories.UserPrivilegeAssignmentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class RoleService {
 
 
@@ -65,13 +67,11 @@ public class RoleService {
         assignmentRepository.saveAll(assignments);
     }
 
+    @Transactional
     public void unAssignUserRole(Long userid, Long roleid) {
         List<Privilege> privileges = privilegeRepository.findByRoleid(roleid);
-        List<UserPrivilegeAssignment> assignments = privileges.stream()
-                .map(privilege ->  new UserPrivilegeAssignment(userid, privilege.getId()))
-                .toList();
+        privileges.forEach(privilege ->  assignmentRepository.deleteByUseridAndPrivilegeId(userid, privilege.getId()));
 
-        assignmentRepository.deleteAll(assignments);
     }
 
     public List<Privilege> getPrivilegesInRole(Long roleid) {

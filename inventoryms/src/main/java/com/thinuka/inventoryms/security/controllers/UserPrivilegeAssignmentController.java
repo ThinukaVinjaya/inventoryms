@@ -63,20 +63,20 @@ public class UserPrivilegeAssignmentController {
         }
     }
 
-    @GetMapping("/user/{id}/privileges")
+    @GetMapping("/user/{userid}/privileges")
     public List<Privilege> getUserPrivileges(@PathVariable("userid") Long userid){
         return userPrivilegeAssignmentService.getUserPrivileges(userid);
 
     }
 
-    @GetMapping("/user/{id}/privileges")
+    @GetMapping("/privilege/{privilegeid}/users")
     public List<User> getUserByPrivileges(@PathVariable("privilegeid") Long privilegeid){
         return userPrivilegeAssignmentService.getUserByPrivileges(privilegeid);
 
     }
 
 
-    @DeleteMapping("/user/{userid}/privileges")
+    @DeleteMapping("/user/{userid}/privileges/clear")
     public ResponseEntity<String> clearUserPrivileges(@PathVariable("userid") Long userid){
 
         try {

@@ -1,7 +1,9 @@
 package com.thinuka.inventoryms.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.thinuka.inventoryms.security.models.Auditable;
 import com.thinuka.inventoryms.security.models.UserPrivilegeAssignment;
 import jakarta.persistence.*;
@@ -16,6 +18,7 @@ import java.util.*;
         @UniqueConstraint(columnNames = "username")
 })
 @Data
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User extends Auditable<String> {
 
     @Id

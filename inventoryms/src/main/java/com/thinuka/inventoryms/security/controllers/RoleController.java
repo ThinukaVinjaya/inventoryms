@@ -6,6 +6,7 @@ import com.thinuka.inventoryms.security.repositories.PrivilegeRepository;
 import com.thinuka.inventoryms.security.services.RoleService;
 import com.thinuka.inventoryms.security.models.Role;
 import com.thinuka.inventoryms.services.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Transactional
 public class RoleController {
 
 
@@ -45,7 +47,7 @@ public class RoleController {
         return roleService.save(role);
     }
 
-    @RequestMapping(value = "/role/delete/{id}", method = {RequestMethod.DELETE, })
+    @RequestMapping(value = "/role/{id}", method = {RequestMethod.DELETE, })
     public void delete(@PathVariable Integer id) {
         roleService.delete(id);
     }
@@ -55,6 +57,7 @@ public class RoleController {
         roleService.assignUserRole(userid, roleid);
     }
 
+    @Transactional
     @DeleteMapping("/role/{roleid}/usAssign/user/{userid}")
     public void unAssignUserRole(@PathVariable("roleid") Long roleid, @PathVariable("userid") Long userid){
         roleService.unAssignUserRole(userid, roleid);

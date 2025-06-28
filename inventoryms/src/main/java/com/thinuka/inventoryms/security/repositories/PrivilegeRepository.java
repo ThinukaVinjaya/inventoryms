@@ -8,4 +8,6 @@ import java.util.List;
 public interface PrivilegeRepository extends JpaRepository<Privilege, Long> {
 
    public List<Privilege> findByRoleid(Long roleid);
+
+
 }

@@ -1,5 +1,8 @@
 package com.thinuka.inventoryms.security.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +14,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Role extends Auditable<String> {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +23,7 @@ public class Role extends Auditable<String> {
     private String description;
     private String details;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "role")
     private List<Privilege> privilege;
 }

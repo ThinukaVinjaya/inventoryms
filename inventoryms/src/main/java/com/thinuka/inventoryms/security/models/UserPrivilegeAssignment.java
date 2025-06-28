@@ -2,11 +2,15 @@ package com.thinuka.inventoryms.security.models;
 
 import com.thinuka.inventoryms.models.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Bean;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserPrivilegeAssignment {
 
     @Id
