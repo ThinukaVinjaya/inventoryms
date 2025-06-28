@@ -2,8 +2,12 @@ package com.thinuka.inventoryms.security.services;
 
 
 import com.thinuka.inventoryms.repositories.UserRepository;
+import com.thinuka.inventoryms.security.models.Privilege;
 import com.thinuka.inventoryms.security.models.Role;
+import com.thinuka.inventoryms.security.models.UserPrivilegeAssignment;
+import com.thinuka.inventoryms.security.repositories.PrivilegeRepository;
 import com.thinuka.inventoryms.security.repositories.RoleRepository;
+import com.thinuka.inventoryms.security.repositories.UserPrivilegeAssignmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +16,19 @@ import java.util.List;
 @Service
 public class RoleService {
 
-    @Autowired
-    private RoleRepository roleRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private  final RoleRepository roleRepository;
+
+    private final UserRepository userRepository;
+    private final PrivilegeRepository privilegeRepository;
+    private  final UserPrivilegeAssignmentRepository assignmentRepository;
+
+    public RoleService(RoleRepository roleRepository, UserRepository userRepository, PrivilegeRepository privilegeRepository, UserPrivilegeAssignmentRepository assignmentRepository) {
+        this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
+        this.privilegeRepository = privilegeRepository;
+        this.assignmentRepository = assignmentRepository;
+    }
 
     //Get All Roles
     public List<Role> findAll() {
@@ -38,4 +50,31 @@ public class RoleService {
         return roleRepository.save(role);
     }
 
+    public void assignUserRole(Long userid, Long roleid) {
+        List<Privilege> privileges = privilegeRepository.findByRoleid(roleid);
+
+        List<UserPrivilegeAssignment> existingAssignment = assignmentRepository.findByUserid(userid);
+
+        assignmentRepository.deleteAll(existingAssignment);
+
+        List<UserPrivilegeAssignment> assignments = privileges.stream()
+                .map(privilege ->  new UserPrivilegeAssignment(userid, privilege.getId()))
+                .toList();
+
+
+        assignmentRepository.saveAll(assignments);
+    }
+
+    public void unAssignUserRole(Long userid, Long roleid) {
+        List<Privilege> privileges = privilegeRepository.findByRoleid(roleid);
+        List<UserPrivilegeAssignment> assignments = privileges.stream()
+                .map(privilege ->  new UserPrivilegeAssignment(userid, privilege.getId()))
+                .toList();
+
+        assignmentRepository.deleteAll(assignments);
+    }
+
+    public List<Privilege> getPrivilegesInRole(Long roleid) {
+        return privilegeRepository.findByRoleid(roleid);
+    }
 }

@@ -1,5 +1,6 @@
 package com.thinuka.inventoryms.security.repositories;
 
+import com.thinuka.inventoryms.security.models.Privilege;
 import com.thinuka.inventoryms.security.models.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +17,6 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
             nativeQuery = true
     )
     List<Role> getUserNotRoles(Integer userId);
+
+    List<Privilege> findById(Long roleid);
 }
