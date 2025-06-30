@@ -45,10 +45,20 @@ public class Item extends Auditable<String> {
 
     private Short quantity = 0;
 
+    private  Short reorder_level;
+
     private Short sold = 0;
 
     private Short available = 0;
 
     private Short defective = 0;
+
+    public void setQuantity(Short quantity){
+        if (quantity < reorder_level){
+            throw new IllegalArgumentException("Quantity cannot be negative");
+        }
+        this.quantity = quantity;
+    }
+
 
 }

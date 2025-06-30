@@ -1,12 +1,18 @@
 package com.thinuka.inventoryms.security.controllers;
 
 
+import com.thinuka.inventoryms.models.User;
+import com.thinuka.inventoryms.security.models.UserPrincipal;
 import com.thinuka.inventoryms.security.services.AuthenticationService;
 import com.thinuka.inventoryms.security.models.LoginRequest;
+import com.thinuka.inventoryms.security.services.TokenService;
+import com.thinuka.inventoryms.security.services.UserPrivilegeAssignmentService;
 import com.thinuka.inventoryms.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,10 +22,16 @@ public class AuthController {
 
     private final UserService userService;
 
+    private  final UserPrivilegeAssignmentService userPrivilegeAssignmentService;
+
+    private  final TokenService tokenService;
+
     private final AuthenticationService authenticationService;
 
-    public AuthController(UserService userService, AuthenticationService authenticationService) {
+    public AuthController(UserService userService, UserPrivilegeAssignmentService userPrivilegeAssignmentService, TokenService tokenService, AuthenticationService authenticationService) {
         this.userService = userService;
+        this.userPrivilegeAssignmentService = userPrivilegeAssignmentService;
+        this.tokenService = tokenService;
         this.authenticationService = authenticationService;
     }
 
@@ -28,8 +40,13 @@ public class AuthController {
         try {
             boolean isAuthenticated = authenticationService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
             if (isAuthenticated) {
+
+                User user =  userService.getUserByUsername(loginRequest.getUsername());
+                UserPrincipal principal =  new UserPrincipal(userPrivilegeAssignmentService, user);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, principal.getAuthorities());
+                String jwtToken = tokenService.generateToken(authentication);
                 session.setAttribute("user", loginRequest.getUsername());
-                return ResponseEntity.ok("Login successful");
+                return ResponseEntity.ok(jwtToken);
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
             }

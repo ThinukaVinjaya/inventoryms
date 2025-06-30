@@ -1,9 +1,12 @@
 package com.thinuka.inventoryms.services;
 
 
+import com.thinuka.inventoryms.models.Item;
 import com.thinuka.inventoryms.models.Order;
 import com.thinuka.inventoryms.models.OrderStats;
+import com.thinuka.inventoryms.repositories.ItemRepository;
 import com.thinuka.inventoryms.repositories.OrderRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +14,16 @@ import java.util.Calendar;
 import java.util.List;
 
 @Service
+@Transactional
 public class OrderService {
     private OrderRepository orderRepository;
 
+    private final ItemRepository itemRepository;
+
     @Autowired
-    public OrderService(OrderRepository orderRepository) {
+    public OrderService(OrderRepository orderRepository, ItemRepository itemRepository) {
         this.orderRepository = orderRepository;
+        this.itemRepository = itemRepository;
     }
 
     public List<Order> getAllOrders(){
@@ -27,7 +34,22 @@ public class OrderService {
         return orderRepository.findById(id).orElse(null);
     }
 
+    @Transactional
     public Order save(Order order) {
+
+        order.getOrderItems().forEach(orderItem -> {
+            Item item = orderItem.getItem();
+            Short newQuantity = (short) (item.getQuantity() - orderItem.getQuantity());
+            if (newQuantity < item.getReorder_level()){
+                throw new IllegalArgumentException(String.format("Quantity of item % is not avalable. Please reduce to %s or less",
+                        item.getDescription(), item.getReorder_level()));
+
+            }
+            item.setQuantity(newQuantity);
+            itemRepository.save(item);
+
+        });
+
         return orderRepository.save(order);
     }
 

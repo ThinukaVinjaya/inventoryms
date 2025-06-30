@@ -13,10 +13,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class MyUserDetailsService implements UserDetailsService {
 
+    private final UserPrivilegeAssignmentService assignmentService;
     private UserRepository userRepository;
 
     @Autowired
-    public MyUserDetailsService(UserRepository userRepository) {
+    public MyUserDetailsService(UserPrivilegeAssignmentService assignmentService, UserRepository userRepository) {
+        this.assignmentService = assignmentService;
+
         this.userRepository = userRepository;
     }
 
@@ -27,6 +30,6 @@ public class MyUserDetailsService implements UserDetailsService {
         if(user == null) {
             throw  new UsernameNotFoundException("User not found in the database");
         }
-        return new UserPrincipal(user);
+        return new UserPrincipal(assignmentService, user);
     }
 }
